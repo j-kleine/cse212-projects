@@ -160,7 +160,7 @@ public class LinkedList : IEnumerable<int>
                 {
                     RemoveTail();
                 }
-                
+
                 // If the node is in the middle, re-link the surrounding nodes
                 else
                 {
@@ -180,6 +180,21 @@ public class LinkedList : IEnumerable<int>
     public void Replace(int oldValue, int newValue)
     {
         // TODO Problem 4
+        // Start from the head of the linked list.
+        Node? current = _head;
+
+        // Traverse through the entire linked list.
+        while (current is not null)
+        {
+            // If the current node's data matches oldValue, replace it with newValue.
+            if (current.Data == oldValue)
+            {
+                current.Data = newValue;
+            }
+
+            // Move to the next node.
+            current = current.Next;
+        }
     }
 
     /// <summary>
