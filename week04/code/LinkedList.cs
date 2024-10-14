@@ -181,19 +181,19 @@ public class LinkedList : IEnumerable<int>
     {
         // TODO Problem 4
         // Start from the head of the linked list.
-        Node? current = _head;
+        Node? curr = _head;
 
         // Traverse through the entire linked list.
-        while (current is not null)
+        while (curr is not null)
         {
             // If the current node's data matches oldValue, replace it with newValue.
-            if (current.Data == oldValue)
+            if (curr.Data == oldValue)
             {
-                current.Data = newValue;
+                curr.Data = newValue;
             }
 
             // Move to the next node.
-            current = current.Next;
+            curr = curr.Next;
         }
     }
 
@@ -225,7 +225,12 @@ public class LinkedList : IEnumerable<int>
     public IEnumerable Reverse()
     {
         // TODO Problem 5
-        yield return 0; // replace this line with the correct yield return statement(s)
+        var curr = _tail; // Start at the end since this is a backward iteration.
+        while (curr is not null)
+        {
+            yield return curr.Data; // Provide (yield) each item to the user
+            curr = curr.Prev; // Go back in the linked list
+        }
     }
 
     public override string ToString()
