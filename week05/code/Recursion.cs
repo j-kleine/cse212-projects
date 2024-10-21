@@ -152,6 +152,23 @@ public static class Recursion
     public static void WildcardBinary(string pattern, List<string> results)
     {
         // TODO Start Problem 4
+        // Base case: If no '*' in pattern, add to results
+        if (!pattern.Contains('*'))
+        {
+            results.Add(pattern);
+            return;
+        }
+
+        // Recursive case: Find first occurrence of '*'
+        int index = pattern.IndexOf('*');
+
+        // Create two new strings: one replacing '*' with '0', the other replacing with '1'
+        string patternWith0 = pattern.Substring(0, index) + '0' + pattern.Substring(index + 1);
+        string patternWith1 = pattern.Substring(0, index) + '1' + pattern.Substring(index + 1);
+
+        // Recursively call function with both new patterns
+        WildcardBinary(patternWith0, results);
+        WildcardBinary(patternWith1, results);
     }
 
     /// <summary>
@@ -166,11 +183,36 @@ public static class Recursion
             currPath = new List<ValueTuple<int, int>>();
         }
         
-        // currPath.Add((1,2)); // Use this syntax to add to the current path
+        currPath.Add((x, y)); // Use this syntax to add to the current path
 
         // TODO Start Problem 5
         // ADD CODE HERE
+        
+        // Base Case: If end of the maze is reached
+        if (maze.IsEnd(x, y)) {
+            // Convert path to string and add it to results
+            results.Add(currPath.AsString());
+            return;
+        }
 
-        // results.Add(currPath.AsString()); // Use this to add your path to the results array keeping track of complete maze solutions when you find the solution.
+        // Try moving in all 4 directions: right, down, left, up
+        var directions = new List<(int, int)>
+        {
+            (1, 0),  // Move right
+            (0, 1),  // Move down
+            (-1, 0), // Move left
+            (0, -1)  // Move up
+        };
+
+        foreach (var (dx, dy) in directions) {
+            int newX = x + dx;
+            int newY = y + dy;
+
+            // Check if this move is valid
+            if (maze.IsValidMove(currPath, newX, newY)) {
+                // Recursively explore the new position
+                SolveMaze(results, maze, newX, newY, new List<ValueTuple<int, int>>(currPath));
+            }
+        }
     }
 }
